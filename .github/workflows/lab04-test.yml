@@ -1,0 +1,15 @@
+name: Unit Tests (Lab04)
+on:
+  push:
+    paths:
+      - 'Lab04/AnimatedSprite.cpp'
+jobs:
+  runtest:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3.1.0
+      - name: Build and run tests
+        run: bash Scripts/tests.sh -xe
+        env:
+          LAB_TO_TEST: Lab04

@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "CMake",
+            "compileCommands": "${config:cmake.buildDirectory}/compile_commands.json",
+            "configurationProvider": "ms-vscode.cmake-tools",
+            "compilerArgs": [
+                "-Wno-pragma-once-outside-header"
+            ],
+            "includePath": [
+                "Libraries/stb/include",
+                "Libraries/rapidjson/include",
+                "Libraries/GLEW/include",
+                "Libraries/SDL/include"
+            ]
+        }
+    ],
+    "version": 4
+}

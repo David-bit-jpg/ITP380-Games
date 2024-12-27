@@ -1,0 +1,69 @@
+name: Build Labs
+on: [push]
+permissions:
+  checks: write
+  contents: read
+  packages: read
+jobs:
+  build-mac:
+    runs-on: macos-12
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3.1.0
+        with:
+          fetch-depth: 2
+      - id: files
+        uses: masesgroup/retrieve-changed-files@v2
+        with:
+          format: 'csv'
+      - name: Generate list of labs to build
+        run: python3 Scripts/checkbuildlist.py ${{ steps.files.outputs.all }}
+      - name: Building for Mac
+        run: bash Scripts/buildMac.sh -xe
+      - name: Annotations
+        if: always()
+        uses: yuzutech/annotations-action@v0.4.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          title: annotations (build-mac)
+          input: diagnostics.json
+          ignore-missing-file: false
+  build-windows:
+    runs-on: windows-2022
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v3.1.0
+        with:
+          fetch-depth: 2
+      - id: files
+        uses: masesgroup/retrieve-changed-files@v2
+        with:
+          format: 'csv'
+      - name: Generate list of labs to build
+        run: python3 Scripts/checkbuildlist.py ${{ steps.files.outputs.all }}
+      - name: Building for Windows
+        run: bash Scripts/buildWin.sh -xe
+      - name: Annotations
+        if: always()
+        uses: yuzutech/annotations-action@v0.4.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          title: annotations (build-windows)
+          input: diagnostics.json
+          ignore-missing-file: false
+      - name: Clang Format Annotations
+        if: always()
+        uses: yuzutech/annotations-action@v0.4.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          title: clang-format
+          input: diagnostics-format.json
+          ignore-missing-file: false
+      - name: Clang Tidy Annotations
+        if: always()
+        uses: yuzutech/annotations-action@v0.4.0
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          title: clang-tidy
+          input: diagnostics-tidy.json
+          ignore-missing-file: false
