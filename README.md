@@ -1,10 +1,14 @@
-# ITP 380 Labs #
+# USC ITP 380 Games #
 
-### EDIT BELOW ###
-Name: Tommy Trojan
+### Introduction ###
+Name: Jiale Wang
 
-Email: ttrojan@usc.edu
+Email: jialewan@usc.edu
 
-Section: T/Th [TIME SLOT]
+These are game assignments I finished for USC's ITP 380 games programming class. All these games are wrote in C++
 
-Platform: [PC/MAC]
+Here are video representations for the games:
+
+Pong
+
+
